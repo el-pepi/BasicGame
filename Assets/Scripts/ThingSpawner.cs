@@ -79,5 +79,6 @@ public class ThingSpawner : MonoBehaviour {
 		speed = 3;
 		lineTime = 0;
 		line.enabled = false;
+		spawnTimer = 0;
 	}
 }
