@@ -21,6 +21,7 @@ public class GameManager : MonoBehaviour {
 	public Text scoreText;
 
 	void Awake(){
+		DontDestroyOnLoad (gameObject);
 		instance = this;
 	}
 
