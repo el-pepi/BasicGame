@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Analytics;
 using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour {
@@ -41,6 +42,10 @@ public class GameManager : MonoBehaviour {
 		dead = true;
 		gameoverScr.SetActive (true);
 		SoundPlayer.instance.PlayByName ("Gameover");
+
+		Dictionary<string,object> data = new Dictionary<string, object> ();
+		data.Add ("score" , score);
+		Analytics.CustomEvent ("gameover",data);
 	}
 
 	public void Reset(){
