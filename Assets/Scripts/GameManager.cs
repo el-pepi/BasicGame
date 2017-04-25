@@ -25,6 +25,9 @@ public class GameManager : MonoBehaviour {
 	}
 
 	public void StartGame(){
+		if (AdsManager.instance.IsAdShowing ()) {
+			return;
+		}
 		isPlaying = true;
 		gameplayScr.SetActive (true);
 		startScr.SetActive (false);
@@ -40,6 +43,7 @@ public class GameManager : MonoBehaviour {
 	}
 
 	public void Reset(){
+		AdsManager.instance.ShowPlacement ();
 		ThingSpawner.instance.OnReset ();
 		gameoverScr.SetActive (false);
 		gameplayScr.SetActive (false);
