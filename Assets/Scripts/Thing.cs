@@ -47,6 +47,17 @@ public class Thing : MonoBehaviour {
 		ThingSpawner.instance.speed += 0.2f;
 		SoundPlayer.instance.PlayByName ("Explosion");
 		ThingSpawner.instance.RemoveFromList (this);
+
+        int killed = PlayerPrefs.GetInt("killed",0) + 1;
+        if (killed >= 50)
+        {
+            if (Social.localUser.authenticated)
+            {
+                Social.ReportProgress("CgkIrKmkyIceEAIQAw", 100, null);
+            }
+        }
+        PlayerPrefs.SetInt("killed",killed);
+
 		Destroy (gameObject);
 	}
 }

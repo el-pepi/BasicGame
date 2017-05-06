@@ -1,8 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Analytics;
 using UnityEngine.UI;
+using GooglePlayGames;
+using UnityEngine.SocialPlatforms;
 
 public class GameManager : MonoBehaviour {
 
@@ -24,6 +25,9 @@ public class GameManager : MonoBehaviour {
 	void Awake(){
 		DontDestroyOnLoad (gameObject);
 		instance = this;
+
+        PlayGamesPlatform.Activate();
+        Social.localUser.Authenticate((bool success)=> { Debug.Log( "aututu: " +  success); });
 	}
 
 	public void StartGame(){
@@ -46,7 +50,21 @@ public class GameManager : MonoBehaviour {
 		Dictionary<string,object> data = new Dictionary<string, object> ();
 		data.Add ("score" , score);
 		Analytics.CustomEvent ("gameover",data);
-	}
+
+        if (score >= 100)
+        {
+            if (Social.localUser.authenticated)
+            {
+                Social.ReportProgress("CgkIrKmkyIceEAIQAg", 100, null);
+            }
+        }
+
+        if (Social.localUser.authenticated)
+        {
+            Social.ReportScore(score, "CgkIrKmkyIceEAIQAQ", null);
+        }
+    }
+    
 
 	public void Reset(){
 		AdsManager.instance.ShowPlacement ();
@@ -68,4 +86,15 @@ public class GameManager : MonoBehaviour {
 	void UpdateScoreText(){
 		scoreText.text = score.ToString ();
 	}
+
+    public void ShowBoard()
+    {
+        //PlayGamesPlatform.Instance.ShowLeaderboardUI();
+        Social.ShowLeaderboardUI();
+    }
+    public void ShowAchievements()
+    {
+        //PlayGamesPlatform.Instance.ShowAchievementsUI();
+        Social.ShowAchievementsUI();
+    }
 }
